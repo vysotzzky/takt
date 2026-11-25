@@ -1,0 +1,38 @@
+:root {
+  font-family: "Segoe UI", Roboto, system-ui, sans-serif;
+  color: #192737;
+  background: #f5f4f0;
+  font-synthesis: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; padding: 0 1rem; }
+.brand, main { width: min(100%, 35rem); margin-inline: auto; }
+.brand {
+  display: flex;
+  gap: .85rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-block: min(10vh, 5rem) 1.5rem;
+  color: #465761;
+  border-bottom: 1px solid #d8dcd7;
+  padding-block-end: 1rem;
+}
+.wordmark { color: #192737; font-size: 1.9rem; font-weight: 750; letter-spacing: -.045em; }
+.panel {
+  padding: clamp(1.1rem, 6vw, 2rem);
+  background: #fff;
+  border: 1px solid #d8dcd7;
+  border-radius: 1rem;
+  overflow-wrap: anywhere;
+}
+h1 { margin: 0 0 1.1rem; font-size: clamp(1.8rem, 5vw, 2.4rem); letter-spacing: -.035em; line-height: 1.1; }
+p { line-height: 1.55; }
+form { display: grid; gap: .65rem; }
+label { font-weight: 650; }
+input, button { min-height: 2.85rem; border-radius: .55rem; padding: .55rem .75rem; font: inherit; }
+input { border: 1px solid #aeb8b6; min-width: 0; margin-bottom: .45rem; }
+button { justify-self: start; border: 0; color: white; background: #192737; font-weight: 650; cursor: pointer; }
+button:hover { background: #304559; }
+button:disabled { opacity: .62; cursor: wait; }
+:focus-visible { outline: 3px solid #a35c03; outline-offset: 3px; }
+.message { color: #7a2e18; margin-block: .8rem 0; }

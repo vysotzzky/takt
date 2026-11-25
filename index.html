@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#192737">
+  <meta name="description" content="Takt – rejestr czasu pracy">
+  <title>Takt · Rejestr czasu pracy</title>
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+  <header class="brand"><span class="wordmark">Takt</span><span>Rejestr czasu pracy</span></header>
+  <main id="app" aria-busy="true">
+    <p role="status">Sprawdzanie sesji…</p>
+  </main>
+
+  <template id="login">
+    <section class="panel" aria-labelledby="login-title">
+      <h1 id="login-title">Zaloguj się</h1>
+      <form>
+        <label for="email">Adres e-mail</label>
+        <input id="email" name="email" type="email" autocomplete="username" required>
+        <label for="password">Hasło</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <button type="submit">Zaloguj się</button>
+      </form>
+      <p class="message" role="alert" hidden></p>
+    </section>
+  </template>
+
+  <template id="profile">
+    <section class="panel" aria-labelledby="profile-title">
+      <h1 id="profile-title"></h1>
+      <p id="account-role"></p>
+      <button type="button">Wyloguj się</button>
+      <p class="message" role="alert" hidden></p>
+    </section>
+  </template>
+</body>
+</html>

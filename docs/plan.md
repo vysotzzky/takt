@@ -1,15 +1,16 @@
 # Plan prac
 
-Postępy można śledzić w [GitHub Issues](https://github.com/vysotzzky/takt/issues) i w historii commitów. Na tablicy projektu wystarczą statusy **Do zrobienia**, **W toku**, **Do przeglądu** i **Gotowe**.
+Postęp prac jest widoczny na [publicznej tablicy Takt](https://github.com/users/vysotzzky/projects/2/views/1) oraz w [zadaniach repozytorium](https://github.com/vysotzzky/takt/issues).
 
 ## Tydzień 1
 
-- [x] Utworzyć publiczne repozytorium na GitHub.
-- [ ] Utworzyć tablicę projektu na GitHub.
-- [x] Utworzyć środowisko testowe Supabase i zastosować migrację z RLS i prywatnym Storage.
-- [ ] Skonfigurować dostawców logowania w panelu Supabase i uzupełnić lokalne zmienne aplikacji.
-- [ ] Dodać testowe konto pracownika i administratora. Potwierdzić logowanie na obu rolach.
-- [ ] Pokazać ekran logowania i działające reguły dostępu. Podać link do commitu lub PR.
+- [x] Opublikować repozytorium, README, plik ignorowanych danych i instrukcję uruchomienia.
+- [x] Utworzyć tablicę GitHub Projects i powiązać ją z repozytorium.
+- [x] Wgrać migrację PostgreSQL z tabelami profili, zmian i potwierdzeń oraz prywatnym Storage.
+- [x] Zaprojektować role i przetestować dostęp do danych przez RLS.
+- [x] Przygotować makiety głównych widoków i listę operacji.
+- [x] Skonfigurować konta testowe. Potwierdzić logowanie i wylogowanie obu ról oraz blokadę publicznej rejestracji.
+- [x] Udostępnić [demonstrację i makiety](widoki-i-operacje.md), [diagram bazy](model.md) i [raport testów uprawnień](test-logowania-i-rls.md).
 
 ## Tydzień 2
 

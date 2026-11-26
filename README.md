@@ -5,7 +5,7 @@ Aplikacja do rejestracji czasu pracy z Supabase Auth i PostgreSQL. Docelowo prac
 Repozytorium zawiera schemat danych z migracją, role i polityki RLS, regułę odczytu prywatnych zdjęć, testy izolacji danych i ekran logowania. Rejestrowanie zmian, zapisywanie zdjęć, historia, PWA i panel administratora są kolejnymi zadaniami.
 
 - [Model bazy i diagram](docs/model.md)
-- [Makieta widoków i operacje](docs/widoki-i-operacje.md)
+- [Demonstracja logowania, makiety ekranów i lista operacji](docs/widoki-i-operacje.md)
 - [Plan prac i backlog](docs/plan.md)
 
 ## Uruchomienie
@@ -49,4 +49,4 @@ npm test
 npm run build
 ```
 
-Testy uruchamiają migrację w lokalnym PostgreSQL przez PGlite z odpowiednikami tabel Auth i Storage. Sprawdzają RLS, prywatność zdjęć, blokadę konta oraz unikatowość otwartej zmiany i powtórzonego potwierdzenia. Logowanie i dostęp przez rzeczywiste API Supabase wymagają dodatkowego testu na podłączonym projekcie. W tym repozytorium używamy wyłącznie danych testowych.
+Testy uruchamiają migrację w lokalnym PostgreSQL przez PGlite z odpowiednikami tabel Auth i Storage. Sprawdzają RLS, prywatność zdjęć, blokadę konta oraz unikatowość otwartej zmiany i powtórzonego potwierdzenia. Wynik logowania obu ról do projektu testowego i zrzuty ekranów opisano w [demonstracji](docs/widoki-i-operacje.md). W tym repozytorium używamy wyłącznie danych testowych.

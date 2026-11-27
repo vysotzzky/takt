@@ -32,9 +32,36 @@
     <section class="panel" aria-labelledby="profile-title">
       <h1 id="profile-title"></h1>
       <p id="account-role"></p>
-      <button type="button">Wyloguj się</button>
+      <button type="button" id="sign-out" class="secondary">Wyloguj się</button>
       <p class="message" role="alert" hidden></p>
     </section>
+  </template>
+  <template id="shift-panel">
+    <div class="shift">
+      <h2>Moja zmiana</h2>
+      <p id="shift-status" role="status">Pobieranie zmiany…</p>
+      <div id="elapsed" class="elapsed" aria-label="Czas zmiany">00:00:00</div>
+      <p id="shift-time"></p>
+      <button type="button" id="shift-action" disabled>Rozpocznij zmianę</button>
+      <div id="recent-proof"></div>
+    </div>
+  </template>
+  <template id="proof-editor">
+    <div class="proof">
+      <h3 tabindex="-1"></h3>
+      <p>Zrób zdjęcie obiektu testowego i pobierz lokalizację urządzenia.</p>
+      <video autoplay muted playsinline hidden aria-label="Podgląd kamery"></video>
+      <img class="preview" hidden alt="Zdjęcie do potwierdzenia zmiany">
+      <button type="button" id="photo">Włącz kamerę</button>
+      <p class="hint" id="camera-status" role="status"></p>
+      <button type="button" id="geo">Pobierz lokalizację</button>
+      <p class="hint" id="geo-status" role="status"></p>
+      <div class="actions">
+        <button type="button" id="save-proof" disabled>Zapisz potwierdzenie</button>
+        <button type="button" id="cancel" class="secondary">Anuluj</button>
+      </div>
+      <p id="save-status" role="status"></p>
+    </div>
   </template>
 </body>
 </html>

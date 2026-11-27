@@ -36,3 +36,17 @@ button:hover { background: #304559; }
 button:disabled { opacity: .62; cursor: wait; }
 :focus-visible { outline: 3px solid #a35c03; outline-offset: 3px; }
 .message { color: #7a2e18; margin-block: .8rem 0; }
+
+.shift { border-top: 1px solid #d8dcd7; padding: 1.1rem 0; margin-top: 1rem; }
+.shift h2, .proof h3 { margin: 0 0 .6rem; }
+.shift p { margin: .45rem 0 .8rem; }
+.elapsed { font-size: clamp(2.5rem, 9vw, 3.8rem); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.active-state { color: #076440; font-weight: 700; }
+.secondary { background: #ebeeec; color: #21353a; }
+.secondary:hover { background: #dde4df; }
+.proof { margin-top: .7rem; border-left: 3px solid #53796b; padding-left: 1rem; }
+.proof video, .proof img { width: 100%; max-height: 18rem; object-fit: contain; background: #edf0ee; margin-bottom: .5rem; }
+.proof :is(video,img):not([hidden]) { display: block; }
+.actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1rem; }
+.hint, #recent-proof, #shift-time { font-size: .94rem; }
+a { color: #135743; text-underline-offset: .16em; }

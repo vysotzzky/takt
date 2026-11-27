@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 import { PGlite } from "@electric-sql/pglite";
 
-const migration = new URL("../supabase/migrations/20261125083257_initial_takt.sql", import.meta.url);
+const migrations = new URL("../supabase/migrations/", import.meta.url);
 const alice = "10000000-0000-4000-8000-000000000001";
 const bob = "10000000-0000-4000-8000-000000000002";
 const admin = "10000000-0000-4000-8000-000000000003";
@@ -27,13 +27,15 @@ test("Migracja izoluje dane oraz zdjęcia i pilnuje podstawowych reguł zmiany",
     create table storage.buckets(
       id text primary key, name text not null, public boolean, file_size_limit bigint, allowed_mime_types text[]
     );
-    create table storage.objects(bucket_id text not null, name text not null);
+    create table storage.objects(bucket_id text not null, name text not null, owner_id text);
     alter table storage.objects enable row level security;
     grant usage on schema auth, storage to anon, authenticated;
     grant execute on function auth.uid() to anon, authenticated;
     grant select, insert on storage.objects to anon, authenticated;
   `);
-  await db.exec(await readFile(migration, "utf8"));
+  for (const file of (await readdir(migrations)).filter(name => name.endsWith(".sql")).sort()) {
+    await db.exec(await readFile(new URL(file, migrations), "utf8"));
+  }
   await db.query("insert into auth.users values ($1), ($2), ($3), ($4)", [alice, bob, admin, blocked]);
   await db.query(`
     insert into public.profiles(id, display_name, role, is_active) values
@@ -91,4 +93,37 @@ test("Migracja izoluje dane oraz zdjęcia i pilnuje podstawowych reguł zmiany",
   await db.exec("reset role; set role anon");
   await assert.rejects(db.query("select * from public.shifts"), { code: "42501" });
   assert.deepEqual(await results("select name as value from storage.objects"), []);
+  const key1 = "41000000-0000-4000-8000-000000000001";
+  const key2 = "41000000-0000-4000-8000-000000000002";
+  const key3 = "41000000-0000-4000-8000-000000000003";
+  const record = (kind, key, shift = null) => db.query(
+    "select public.record_shift_event($1,$2,$3,52,19,7) as shift", [kind, key, shift]);
+  const upload = (who, key) => db.query(
+    "insert into storage.objects(bucket_id,name,owner_id) values('takt-evidence',$1,$2)", [who + "/" + key + ".jpg", who]);
+  await assert.rejects(record("start", key1), {code:"42501"});
+  await asAuthenticated(alice);
+  await assert.rejects(record("stop", key1, firstShift), /photo_required/);
+  await assert.rejects(upload(bob, key1), {code:"42501"});
+  await upload(alice, key1);
+  await assert.rejects(record("stop", key1, secondShift), /shift_changed/);
+  const closed = await record("stop", key1, firstShift);
+  assert.equal(closed.rows[0].shift, firstShift);
+  assert.equal((await record("stop", key1, firstShift)).rows[0].shift, firstShift);
+  await upload(alice, key2);
+  const newShift = (await record("start", key2)).rows[0].shift;
+  assert.equal((await record("start", key2)).rows[0].shift, newShift);
+  await upload(alice, key3);
+  await assert.rejects(record("start", key3), /shift_changed/);
+  await assert.rejects(record("stop", key3, firstShift), /shift_changed/);
+  await record("stop", key3, newShift);
+  const summary = await db.query("select count(*)::int as events, min(accuracy_m) as accuracy from public.evidence where shift_id=$1", [newShift]);
+  assert.deepEqual(summary.rows, [{events:2, accuracy:7}]);
+  assert.equal((await db.query("select ended_at >= started_at as ended from public.shifts where id=$1", [newShift])).rows[0].ended,true);
+  await asAuthenticated(bob);
+  assert.equal((await db.query("select id from public.evidence where shift_id=$1", [newShift])).rows.length,0);
+  for (const account of [blocked, admin]) {
+    await asAuthenticated(account);
+    await assert.rejects(record("start", key3), {code:"42501"});
+    await assert.rejects(upload(account, key3), {code:"42501"});
+  }
 });

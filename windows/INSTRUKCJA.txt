@@ -1,0 +1,40 @@
+TAKT — wersja testowa na komputer z Windows
+Tydzień 2 praktyk · etap 1–2
+
+URUCHOMIENIE
+1. Kliknij ZIP prawym przyciskiem i wybierz „Wyodrębnij wszystkie”.
+2. Otwórz rozpakowany folder Takt i dwukrotnie kliknij START_TAKT.cmd.
+   Do uruchomienia potrzebny jest Python 3.8 lub nowszy. Jeśli korzystasz
+   z poprzedniego lokalnego Takt, możesz użyć dotychczasowego Pythona.
+3. Pojawi się okno serwera i strona w przeglądarce. Adres na tym komputerze
+   to http://127.0.0.1:8785. Możesz wkleić go do Chrome lub Edge.
+4. Zaloguj się jako pracownik. Dane są w KONTA_TESTOWE.txt z przekazanej
+   osobno prywatnej paczki demonstracyjnej. Konto panelu Supabase służy
+   do zarządzania projektem. Do rejestracji zmiany użyj konta aplikacji.
+
+PIERWSZA ZMIANA
+1. Kliknij „Rozpocznij zmianę”, następnie „Włącz kamerę”. Zezwól na jej
+   użycie, skieruj ją na kartkę testową i kliknij „Zrób zdjęcie”.
+2. Kliknij „Pobierz lokalizację” i zezwól na dostęp. Zobaczysz dokładność
+   w metrach oraz link otwierający miejsce w Google Maps.
+3. Kliknij „Zapisz potwierdzenie”. Status zmieni się na „W pracy”.
+   Licznik liczy od chwili zapisu przez serwer i wraca po odświeżeniu.
+4. Na koniec kliknij „Zakończ zmianę”. Wykonaj drugie zdjęcie, pobierz
+   lokalizację i zapisz. Pulpit pokaże „Poza pracą”, godziny oraz długość
+   ostatniej zmiany. Daty i godziny są podawane w strefie Europe/Warsaw.
+5. Na wspólnym komputerze kliknij „Wyloguj się”. Aby zatrzymać lokalny
+   serwer, kliknij jego okno i naciśnij Ctrl+C. Wyłączenie komputera,
+   serwera lub przeglądarki nie kończy rozpoczętej zmiany.
+
+WARUNKI TESTU
+Na komputerze uruchamia się strona. Logowanie, czas i dane obsługuje testowy
+projekt Supabase przez internet. Potrzebna jest kamera i działająca lokalizacja.
+Jeśli lokalizacja jest niedostępna, włącz usługi lokalizacji w ustawieniach
+prywatności Windows i zezwól przeglądarce na dostęp. Dokładność zależy
+od urządzenia. Przy braku zdjęcia lub lokalizacji zmiana nie zostanie zapisana.
+Przeglądarka pyta o dane przy potwierdzaniu zdarzenia. Nie śledzi drogi
+pracownika pomiędzy rozpoczęciem a zakończeniem zmiany.
+
+Na tym etapie konto administratora umożliwia logowanie i sprawdzenie roli.
+Panel historii zespołu, eksport CSV, instalacja PWA i trwała kolejka
+offline są zaplanowane w kolejnych etapach.

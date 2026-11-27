@@ -39,7 +39,7 @@ erDiagram
     }
 ```
 
-Zdjęcia JPEG mają trafić do prywatnego zasobnika `takt-evidence`. Pole `evidence.photo_path` wskazuje plik. Polityka odczytu Storage wymaga widocznego powiązania w `evidence`, dlatego przypadkowy lub niepowiązany plik nie jest dostępny dla aplikacji.
+Zdjęcia JPEG trafiają do prywatnego zasobnika `takt-evidence`. Pole `evidence.photo_path` wskazuje plik. Polityka odczytu Storage wymaga widocznego powiązania w `evidence`, dlatego przypadkowy lub niepowiązany plik nie jest dostępny dla aplikacji.
 
 | Dane | Aktywny pracownik | Aktywny administrator |
 | --- | --- | --- |
@@ -47,4 +47,4 @@ Zdjęcia JPEG mają trafić do prywatnego zasobnika `takt-evidence`. Pole `evide
 | Zmiany i metadane | Własne zmiany i potwierdzenia | Zmiany i potwierdzenia całego zespołu |
 | Zdjęcia | Pliki powiązane z własnymi potwierdzeniami | Pliki powiązane z potwierdzeniami zespołu |
 
-Pierwsza migracja nadaje przeglądarce odczyt zgodny z RLS. Operacje zapisu powstaną osobno po stronie serwera. Unikatowy indeks ogranicza konto do jednej otwartej zmiany. Klucz `request_id` zabezpiecza ponowienie, a ograniczenie `(shift_id, kind)` dopuszcza najwyżej jedno potwierdzenie rozpoczęcia i jedno zakończenia na zmianę. Czasy są przechowywane jako `timestamptz`. Interfejs i raport mają je prezentować w strefie `Europe/Warsaw`.
+Pierwsza migracja nadaje przeglądarce odczyt zgodny z RLS. Druga migracja umożliwia aktywnemu pracownikowi przesłanie zdjęcia do jego katalogu i zapis zmiany przez funkcję record_shift_event. Unikatowy indeks ogranicza konto do jednej otwartej zmiany. Klucz `request_id` zabezpiecza ponowienie, a ograniczenie `(shift_id, kind)` dopuszcza najwyżej jedno potwierdzenie rozpoczęcia i jedno zakończenia na zmianę. Czasy są przechowywane jako `timestamptz`. Interfejs prezentuje je w strefie `Europe/Warsaw`.

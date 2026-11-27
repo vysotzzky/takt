@@ -1,8 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import "./style.css";
+import { mountShift } from "./shift.js";
 
 const app = document.querySelector("#app");
 let supabase;
+let unmount = () => {};
 
 function publicConfiguration() {
   const url = new URL(import.meta.env.VITE_SUPABASE_URL || "");
@@ -15,6 +17,8 @@ function publicConfiguration() {
 }
 
 function showTemplate(id) {
+  unmount();
+  unmount = () => {};
   app.replaceChildren(document.querySelector("#" + id).content.cloneNode(true));
   app.setAttribute("aria-busy", "false");
   return app.querySelector("section");
@@ -99,7 +103,8 @@ async function showAccount(session) {
   const section = showTemplate("profile");
   section.querySelector("h1").textContent = profile.display_name;
   section.querySelector("#account-role").textContent = profile.role === "admin" ? "Administrator" : "Pracownik";
-  const signOut = section.querySelector("button");
+  const signOut = section.querySelector("#sign-out");
+  if (profile.role === "employee") unmount = mountShift(section, supabase, session.user.id);
   signOut.onclick = async () => {
     signOut.disabled = true;
     try {

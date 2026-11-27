@@ -1,6 +1,6 @@
 # Widoki i operacje Takt
 
-## Działająca wersja
+## Logowanie z tygodnia 1
 
 Pracownik i administrator logują się e-mailem i hasłem. Po pobraniu aktywnego profilu aplikacja wyświetla nazwę i rolę. Przycisk wylogowania kończy sesję na bieżącym urządzeniu.
 
@@ -8,7 +8,7 @@ Pracownik i administrator logują się e-mailem i hasłem. Po pobraniu aktywnego
 
 Zrzuty pochodzą z demonstracji z 26 listopada 2026 r. W obu sesjach po odświeżeniu strony nadal wyświetlał się właściwy profil. To samo zapytanie do tabeli profili zwróciło pracownikowi jeden wiersz, a administratorowi dwa. Po wylogowaniu i ponownym otwarciu strony oba konta zobaczyły formularz logowania. Po wyłączeniu samodzielnej rejestracji Supabase odrzucił próbę utworzenia nowego konta (HTTP 422, `signup_disabled`). [Szczegóły wcześniejszych testów RLS](https://github.com/vysotzzky/takt/pull/4)
 
-## Makiety kolejnych ekranów
+## Makiety przygotowane w tygodniu 1
 
 ### Pracownik
 
@@ -31,15 +31,23 @@ Historia pozwoli wybrać miesiąc i pracownika, otworzyć szczegóły potwierdze
 | Pobranie profilu | Data API, `GET /rest/v1/profiles` | Aplikacja wybiera bieżący profil. RLS ogranicza także zapytania bez filtra po użytkowniku. |
 | Wylogowanie | Supabase Auth, `signOut({ scope: "local" })` | Powrót do formularza logowania na bieżącym urządzeniu. |
 
-## Operacje planowane
+## Rejestracja zmiany w tygodniu 2
 
-| Etap | Operacja | Wejście i wynik |
+| Operacja | Interfejs | Wynik |
 | --- | --- | --- |
-| 2 | Odczyt otwartej zmiany | Identyfikator zalogowanego pracownika i filtr `ended_at IS NULL`. Wynik określi status oraz początek licznika. |
-| 2 | Rozpoczęcie i zakończenie zmiany | Funkcja serwerowa przyjmie typ zdarzenia, `request_id`, zdjęcie JPEG, położenie i dokładność. Powiąże plik w prywatnym Storage z potwierdzeniem i zmianą. |
-| 2 | Ponowienie zapisu | Klient zachowa identyfikator pierwszego żądania. Serwer rozpozna ponowienie po `request_id` i zwróci wynik już zapisanego zdarzenia. |
-| 3 | Historia i potwierdzenia | Miesiąc i opcjonalny filtr pracownika. Po sprawdzeniu dostępu użytkownik zobaczy czas, zdjęcia i link do miejsca w Google Maps. |
-| 3 | Eksport CSV | Wybrany okres i zakres pracowników. Raport uwzględni widoczność danych i strefę `Europe/Warsaw`. |
-| 3 | Zarządzanie zespołem | Funkcja serwerowa sprawdzi aktywną rolę administratora przed utworzeniem konta, zmianą profilu, blokadą, przywróceniem lub resetem dostępu. |
+| Odczyt ostatniej zmiany | Data API, shifts z powiązanymi evidence | Status, licznik, godziny i linki do Google Maps pozostają dostępne po odświeżeniu strony. |
+| Zdjęcie | Przeglądarka, getUserMedia | Po kliknięciu aparatu pracownik zatwierdza pojedynczą klatkę JPEG. Ścieżka dźwiękowa jest wyłączona. |
+| Lokalizacja | Przeglądarka, getCurrentPosition | Jednorazowy odczyt szerokości, długości i deklarowanej dokładności w metrach. |
+| Przesłanie zdjęcia | Supabase Storage, bucket takt-evidence | Aktywny pracownik zapisuje JPEG we własnym katalogu pod identyfikatorem zdarzenia. |
+| Początek lub koniec | Data API, RPC record_shift_event | Baza sprawdza konto i zdjęcie, po czym zapisuje zmianę i potwierdzenie w jednej transakcji. Oba rekordy mają ten sam czas serwera. |
+| Ponowienie | Ten sam identyfikator w otwartym formularzu | Utrata odpowiedzi z serwera pozwala ponowić ten sam zapis. Odświeżenie strony przed zakończeniem zapisu usuwa formularz. |
 
-Zmiana i potwierdzenie powinny zapisywać się w jednej transakcji PostgreSQL. Przesłanie pliku do Storage to osobna operacja, więc implementacja powinna obsłużyć nieudany zapis metadanych i usunięcie osieroconego pliku.
+W trakcie testów korzystaj z fikcyjnych kont i zdjęć obiektu testowego. Wersja na komputer wymaga połączenia z Supabase. Przesłanie zdjęcia poprzedza transakcję w bazie. Jeśli po przesłaniu pliku zamkniesz formularz przed zapisem, w prywatnym zasobniku może pozostać niepowiązany plik. Trwałe ponawianie i sprzątanie takich plików należą do dalszej części etapu.
+
+## Pozostałe operacje
+
+| Etap | Operacja | Wynik |
+| --- | --- | --- |
+| 2 | Wznowienie po ponownym otwarciu aplikacji | Kolejka zachowa niezapisane potwierdzenie przy braku sieci. |
+| 3 | Historia zespołu i eksport CSV | Administrator wybierze miesiąc i pracownika oraz pobierze raport. |
+| 3 | Zarządzanie zespołem | Administrator utworzy lub zmieni konto, zablokuje je, przywróci dostęp lub rozpocznie reset hasła. |

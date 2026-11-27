@@ -14,8 +14,10 @@ Postęp prac jest widoczny na [publicznej tablicy Takt](https://github.com/users
 
 ## Tydzień 2
 
-- [ ] Dodać pulpit pracownika, start i koniec zmiany oraz licznik.
-- [ ] Zaimplementować aparat, lokalizację, prywatny zapis zdjęć oraz ponowienia.
+- [x] Dodać pulpit pracownika, start i koniec zmiany oraz licznik.
+- [x] Zebrać zdjęcie z aparatu, lokalizację, dokładność i czas potwierdzenia dla początku oraz końca zmiany.
+- [x] Powiązać prywatny plik JPEG z potwierdzeniem w PostgreSQL.
+- [ ] Rozszerzyć ponowienie w otwartym formularzu o trwałą kolejkę po zamknięciu strony i obsługę osieroconych plików.
 - [ ] Sprawdzić interfejs na telefonie i komputerze, dodać PWA i nagrać pełny przebieg zmiany.
 
 ## Tydzień 3
